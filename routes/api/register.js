@@ -22,13 +22,24 @@ router.post("/", (req, res) => {
       .json({ msg: "Password must contains at least 8 characters" });
   }
 
-  // Check if user already exist
+  // Check if email already exist
   User.findOne({ email })
     .then(user => {
       if (user) {
         return res
           .status(400)
           .json({ msg: "User with that email already exist" });
+      }
+    })
+    .catch(err => console.log(err));
+
+  // Check if name already exist
+  User.findOne({ name })
+    .then(user => {
+      if (user) {
+        return res
+          .status(400)
+          .json({ msg: "User with that name already exist" });
       }
     })
     .catch(err => console.log(err));

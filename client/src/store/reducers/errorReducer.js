@@ -1,18 +1,24 @@
 const initState = {
   msg: null,
-  type: null,
+  status: null,
   id: null
 };
 
 const errorReducer = (state = initState, action) => {
   switch (action.type) {
     case "RETURN_ERROR":
-      const { msg, type, id } = action.payload;
+      const { msg, status, id } = action.payload;
       return {
         ...state,
         msg,
-        type,
+        status,
         id
+      };
+    case "CLEAR_ERRORS":
+      return {
+        msg: null,
+        status: null,
+        id: null
       };
     default:
       return state;

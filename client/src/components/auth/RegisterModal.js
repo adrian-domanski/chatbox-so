@@ -7,7 +7,8 @@ import {
   ModalFooter,
   Input,
   Form,
-  FormGroup
+  FormGroup,
+  Alert
 } from "reactstrap";
 import { connect } from "react-redux";
 import { register } from "../../store/actions/authActions";
@@ -15,10 +16,25 @@ import { register } from "../../store/actions/authActions";
 class RegisterModal extends Component {
   state = {
     modal: false,
+    error: null,
     name: "",
     email: "",
     password: ""
   };
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.error.id !== prevProps.error.id &&
+      this.props.error.id === "REGISTER_FAIL"
+    ) {
+      this.setState({ error: this.props.error.msg });
+      this.props.clearErrors();
+
+      setTimeout(() => {
+        this.setState({ error: null });
+      }, 5000);
+    }
+  }
 
   toggle = () => {
     this.setState(prevState => ({
@@ -40,8 +56,7 @@ class RegisterModal extends Component {
   };
 
   render() {
-    const { name, email, password } = this.state;
-
+    const { name, email, password, error } = this.state;
     return (
       <div>
         <div onClick={this.toggle}>Register</div>
@@ -51,6 +66,7 @@ class RegisterModal extends Component {
           className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Registration Form</ModalHeader>
           <ModalBody>
+            {error ? <Alert color="danger">{error}</Alert> : null}
             <Form>
               {/* Name */}
               <FormGroup>
@@ -98,11 +114,16 @@ class RegisterModal extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  error: state.errorReducer
+});
+
 const mapDispatchToProps = dispatch => ({
-  register: user => dispatch(register(user))
+  register: user => dispatch(register(user)),
+  clearErrors: () => dispatch({ type: "CLEAR_ERRORS" })
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(RegisterModal);

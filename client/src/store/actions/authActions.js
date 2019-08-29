@@ -11,7 +11,9 @@ export const register = user => dispatch => {
       dispatch({ type: "REGISTER_SUCCESS", payload: res.data });
     })
     .catch(err => {
-      returnError(err.status, err.message, "REGISTER_FAIL");
+      dispatch(
+        returnError(err.response.status, err.response.data.msg, "REGISTER_FAIL")
+      );
       dispatch({ type: "REGISTER_FAIL" });
     });
 };
@@ -26,7 +28,9 @@ export const login = credentials => dispatch => {
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
     })
     .catch(err => {
-      returnError(err.status, err.message, "LOGIN_FAIL");
+      dispatch(
+        returnError(err.response.status, err.response.data.msg, "LOGIN_FAIL")
+      );
       dispatch({ type: "LOGIN_FAIL" });
     });
 };
@@ -46,8 +50,8 @@ export const auth = () => dispatch => {
       dispatch({ type: "USER_LOADED", payload: res.data });
     })
     .catch(err => {
+      dispatch(returnError(err.response.status, err.response.data.msg));
       dispatch({ type: "AUTH_FAIL" });
-      returnError(err.status, err.message);
     });
 };
 

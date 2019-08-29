@@ -7,7 +7,8 @@ import {
   ModalFooter,
   Input,
   Form,
-  FormGroup
+  FormGroup,
+  Alert
 } from "reactstrap";
 import { connect } from "react-redux";
 import { login } from "../../store/actions/authActions";
@@ -15,9 +16,24 @@ import { login } from "../../store/actions/authActions";
 class LoginModal extends Component {
   state = {
     modal: false,
+    error: null,
     email: "",
     password: ""
   };
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.error.id !== prevProps.error.id &&
+      this.props.error.id === "LOGIN_FAIL"
+    ) {
+      this.setState({ error: this.props.error.msg });
+      this.props.clearErrors();
+
+      setTimeout(() => {
+        this.setState({ error: null });
+      }, 5000);
+    }
+  }
 
   toggle = () => {
     this.setState(prevState => ({
@@ -38,7 +54,7 @@ class LoginModal extends Component {
   };
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, error } = this.state;
 
     return (
       <div>
@@ -49,6 +65,7 @@ class LoginModal extends Component {
           className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Login Form</ModalHeader>
           <ModalBody>
+            {error ? <Alert color="danger">{error}</Alert> : null}
             <Form>
               {/* Email */}
               <FormGroup>
@@ -86,11 +103,16 @@ class LoginModal extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  error: state.errorReducer
+});
+
 const mapDispatchToProps = dispatch => ({
-  login: user => dispatch(login(user))
+  login: user => dispatch(login(user)),
+  clearErrors: () => dispatch({ type: "CLEAR_ERRORS" })
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(LoginModal);
