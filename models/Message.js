@@ -9,6 +9,14 @@ const messageSchema = new Schema({
   author: {
     type: String,
     require: true
+  },
+  data: {
+    type: Date,
+    default: Date.now
+  },
+  author_color: {
+    type: String,
+    required: true
   }
 });
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const validator = require("validator");
 
 // Get user schema
 const User = require("../../models/User");
@@ -20,6 +21,18 @@ router.post("/", (req, res) => {
     return res
       .status(400)
       .json({ msg: "Password must contains at least 8 characters" });
+  }
+
+  // Name - max 12 chars
+  if (name.length > 12) {
+    return res
+      .status(400)
+      .json({ msg: "Name might have at most 12 characters" });
+  }
+
+  // Name only letters
+  if (!validator.isAlpha(name)) {
+    return res.status(400).json({ msg: "Name may contains only letters A-Z" });
   }
 
   // Check if email already exist
@@ -76,7 +89,8 @@ router.post("/", (req, res) => {
                 user: {
                   id: user._id,
                   name: user.name,
-                  email: user.email
+                  email: user.email,
+                  name_color: user.name_color
                 }
               });
             }

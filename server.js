@@ -29,21 +29,30 @@ const server = app.listen(PORT, () =>
 const io = socket(server);
 
 io.on("connection", socket => {
-  // Get message
-  socket.on("message", data => {
-    const { msg, author } = data;
+  Message.find()
+    .then(msg => {
+      socket.emit("output", msg);
+    })
+    .catch(err => {
+      sendStatus(err.response.message);
+    });
 
-    if (msg === "" || !msg) sendStatus("Please type in your message");
+  // New message
+  socket.on("input", data => {
+    const { msg, author, author_color } = data;
+    if (msg === "" || !msg) return sendStatus("Please type in your message");
+    if (!author) return sendStatus("Please log in to add new message");
 
     const newMessage = new Message({
       msg,
-      author
+      author,
+      author_color
     });
 
     newMessage.save((err, msg) => {
       if (err) throw err;
       // Emit new message
-      socket.emit("message", msg);
+      io.emit("refresh", msg);
     });
   });
 

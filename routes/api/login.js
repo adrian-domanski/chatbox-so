@@ -41,7 +41,8 @@ router.post("/", (req, res) => {
               user: {
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                name_color: user.name_color
               }
             });
           }
