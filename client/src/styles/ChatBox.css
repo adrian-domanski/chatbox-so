@@ -1,0 +1,21 @@
+.messages {
+  min-height: 300px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 2rem;
+}
+
+.new_message_form {
+  margin-top: 1rem;
+}
+
+label {
+  opacity: 0.6;
+  font-weight: bold;
+}
+
+.new_message_form button {
+  margin: 0 auto;
+  margin-top: 1rem;
+  display: block;
+}
