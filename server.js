@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const config = require("config");
 const socket = require("socket.io");
+const path = require("path");
 const Message = require("./models/Message");
 const User = require("./models/User");
 const app = express();
@@ -13,6 +14,16 @@ app.use(express.json());
 app.use("/api/register", require("./routes/api/register"));
 app.use("/api/login", require("./routes/api/login"));
 app.use("/api/auth", require("./routes/api/auth"));
+
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 // Connect to MongoDB
 const db = config.get("mongoURI");
