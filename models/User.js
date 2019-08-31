@@ -22,6 +22,10 @@ const userSchema = new Schema({
     type: String,
     default: "black"
   },
+  msg_count: {
+    type: Number,
+    default: 0
+  },
   date: {
     type: Date,
     default: Date.now

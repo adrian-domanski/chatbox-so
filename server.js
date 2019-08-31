@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const config = require("config");
 const socket = require("socket.io");
 const Message = require("./models/Message");
+const User = require("./models/User");
 const app = express();
 
 // Add parser
@@ -28,9 +29,25 @@ const server = app.listen(PORT, () =>
 // Socket.io
 const io = socket(server);
 
+let active_users = 0;
+
 io.on("connection", socket => {
-  // io.emit('joined', socket)
-  console.log(socket);
+  // Emit active users amount
+  active_users += 1;
+  io.emit("active", active_users);
+
+  socket.on("disconnect", () => {
+    active_users -= 1;
+    io.emit("active", active_users);
+  });
+
+  // Emit top spamers
+  User.find()
+    .sort({ msg_count: -1 })
+    .limit(10)
+    .then(users => {
+      io.emit("spamers", users);
+    });
 
   // Initial emit sent messages from db
   Message.find()
@@ -57,6 +74,9 @@ io.on("connection", socket => {
       if (err) throw err;
       // Emit new message
       io.emit("refresh", msg);
+
+      // Increment post count
+      User.updateOne({ name: author }, { $inc: { msg_count: 1 } }).exec();
     });
   });
 
