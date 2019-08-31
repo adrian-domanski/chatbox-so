@@ -15,3 +15,22 @@ code {
 textarea {
   resize: none;
 }
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info {
+  flex-basis: 20%;
+  padding: 1re;
+}
+
+.chatbox {
+  flex-basis: 80%;
+}
+
+.spamers {
+  list-style-type: none;
+  padding: 0;
+}

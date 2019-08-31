@@ -3,6 +3,8 @@ import NavBar from "./components/NavBar";
 import { auth } from "./store/actions/authActions";
 import { connect } from "react-redux";
 import ChatBox from "./components/ChatBox";
+import RegisterModal from "./components/auth/RegisterModal";
+import Info from "./components/Info";
 
 export class App extends Component {
   componentDidMount() {
@@ -14,7 +16,11 @@ export class App extends Component {
     return (
       <div className="App">
         <NavBar></NavBar>
-        <ChatBox></ChatBox>
+        <div className="content">
+          <ChatBox />
+          <Info />
+        </div>
+        <RegisterModal />
       </div>
     );
   }

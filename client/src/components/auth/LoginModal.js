@@ -55,10 +55,10 @@ class LoginModal extends Component {
 
   render() {
     const { email, password, error } = this.state;
-
+    const { title } = this.props;
     return (
       <div>
-        <div onClick={this.toggle}>Login</div>
+        <div onClick={this.toggle}>{title}</div>
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}

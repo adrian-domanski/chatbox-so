@@ -27,12 +27,12 @@ class NavBar extends Component {
       <React.Fragment>
         <NavItem>
           <NavLink href="#">
-            <RegisterModal />
+            <RegisterModal title="Register" />
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="#">
-            <LoginModal />
+            <LoginModal title="Log In" />
           </NavLink>
         </NavItem>
       </React.Fragment>

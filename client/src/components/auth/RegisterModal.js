@@ -19,7 +19,8 @@ class RegisterModal extends Component {
     error: null,
     name: "",
     email: "",
-    password: ""
+    password: "",
+    class: ""
   };
 
   componentDidUpdate(prevProps) {
@@ -55,10 +56,11 @@ class RegisterModal extends Component {
   };
 
   render() {
+    const { title } = this.props;
     const { name, email, password, error } = this.state;
     return (
       <div>
-        <div onClick={this.toggle}>Register</div>
+        <div onClick={this.toggle}>{title}</div>
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}

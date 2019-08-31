@@ -29,6 +29,10 @@ const server = app.listen(PORT, () =>
 const io = socket(server);
 
 io.on("connection", socket => {
+  // io.emit('joined', socket)
+  console.log(socket);
+
+  // Initial emit sent messages from db
   Message.find()
     .then(msg => {
       socket.emit("output", msg);

@@ -3,6 +3,9 @@ import { Input, Label, FormGroup, Button } from "reactstrap";
 import "../styles/ChatBox.css";
 import openSocket from "socket.io-client";
 import { connect } from "react-redux";
+import RegisterModal from "./auth/RegisterModal";
+import LoginModal from "./auth/LoginModal";
+
 const socket = openSocket(`http://localhost:${process.env.PORT || 5000}`);
 
 class ChatBox extends Component {
@@ -45,6 +48,7 @@ class ChatBox extends Component {
   };
 
   handleKeyPress = e => {
+    // Submit after enter
     if (e.which === 13) this.handleSubmit(e);
   };
 
@@ -60,7 +64,7 @@ class ChatBox extends Component {
             <span>{msg.msg}</span>
           </div>
         ))
-      : "Loading...";
+      : "There aren't any messages yet - let's change that!";
 
     const { isAuthenticated } = this.props;
     const { newMessage } = this.state;
@@ -75,6 +79,7 @@ class ChatBox extends Component {
             <FormGroup className="new_message_form">
               <Label for="newMessage">New message:</Label>
               <Input
+                placeholder="Say Hello..."
                 type="textarea"
                 onChange={this.handleChange}
                 name="newMessage"
@@ -87,8 +92,16 @@ class ChatBox extends Component {
               </Button>
             </FormGroup>
           ) : (
-            <h3 className="text-center mt-4">
-              Please log in to add new message
+            <h3 className="text-center mt-5 tip">
+              Please&nbsp;
+              <a href="/" onClick={e => e.preventDefault()}>
+                <RegisterModal title="register" />
+              </a>
+              &nbsp;or&nbsp;
+              <a href="/" onClick={e => e.preventDefault()}>
+                <LoginModal title="log in" />
+              </a>
+              &nbsp;to add new message
             </h3>
           )}
         </div>
