@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import RegisterModal from "./auth/RegisterModal";
 import LoginModal from "./auth/LoginModal";
 
-const socket = openSocket(`http://localhost:${process.env.PORT || 5000}`);
+const socket = openSocket("/");
 
 class ChatBox extends Component {
   state = {
