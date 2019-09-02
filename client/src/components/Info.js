@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardFooter, CardBody, CardTitle } from "reactstrap";
 import openSocket from "socket.io-client";
-const socket = openSocket(`http://localhost:${process.env.PORT || 5000}`);
+const socket = openSocket("/");
 
 class Info extends Component {
   state = {
