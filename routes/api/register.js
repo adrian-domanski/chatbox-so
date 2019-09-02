@@ -11,7 +11,10 @@ const User = require("../../models/User");
 router.post("/", (req, res) => {
   const { name, email, password } = req.body;
 
-  // Validation
+  // // // // // //
+  //  Validation //
+  // // // // // //
+
   if (!name || !email || !password) {
     return res.status(400).json({ msg: "Please enter all credentials" });
   }
@@ -33,6 +36,11 @@ router.post("/", (req, res) => {
   // Name only letters
   if (!validator.isAlpha(name)) {
     return res.status(400).json({ msg: "Name may contains only letters A-Z" });
+  }
+
+  // Correct email
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({ msg: "Invalid email" });
   }
 
   // Check if email already exist
@@ -71,7 +79,6 @@ router.post("/", (req, res) => {
       if (err) throw err;
       // Replace plain password with hash
       newUser.password = hash;
-
       // Save user
       newUser
         .save()
@@ -83,7 +90,7 @@ router.post("/", (req, res) => {
             { expiresIn: 3600 },
             (err, token) => {
               if (err) throw err;
-
+              // Return response
               res.json({
                 token,
                 user: {

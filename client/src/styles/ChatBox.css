@@ -21,9 +21,10 @@
   background-color: #555;
 }
 
-h3.tip {
+.tip {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .new_message_form {
@@ -39,4 +40,11 @@ label {
   margin: 0 auto;
   margin-top: 1rem;
   display: block;
+}
+
+/* Info */
+.info {
+  margin: 0 1rem;
+  min-width: 300px;
+  /* padding: 1rem 2rem; */
 }

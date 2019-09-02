@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  Card,
-  Button,
-  CardHeader,
-  CardFooter,
-  CardBody,
-  CardTitle,
-  CardText
-} from "reactstrap";
+import { Card, CardHeader, CardFooter, CardBody, CardTitle } from "reactstrap";
 import openSocket from "socket.io-client";
 const socket = openSocket(`http://localhost:${process.env.PORT || 5000}`);
 
@@ -41,7 +33,7 @@ class Info extends Component {
       : "Loading...";
 
     return (
-      <Card className="info my-5">
+      <Card className="info">
         <CardHeader tag="h3" className="text-center">
           Info:
         </CardHeader>
@@ -55,7 +47,7 @@ class Info extends Component {
           </CardTitle>
           <ul className="text-center spamers">{top}</ul>
         </CardBody>
-        <CardFooter className="text-muted text-center">
+        <CardFooter className="text-muted text-center copy">
           Copyright &copy; Adison
         </CardFooter>
       </Card>

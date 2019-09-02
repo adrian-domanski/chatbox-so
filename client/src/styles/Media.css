@@ -1,0 +1,14 @@
+@media screen and (max-width: 998px) {
+  .info {
+    display: none;
+  }
+  .chatbox {
+    flex-basis: 100%;
+  }
+}
+
+@media screen and(max-width: 400px) {
+  .tip h3 {
+    font-size: 18px !important;
+  }
+}

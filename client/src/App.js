@@ -16,7 +16,7 @@ export class App extends Component {
     return (
       <div className="App">
         <NavBar></NavBar>
-        <div className="content">
+        <div className="container py-5 content">
           <ChatBox />
           <Info />
         </div>
