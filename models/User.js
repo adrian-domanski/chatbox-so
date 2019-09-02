@@ -20,7 +20,11 @@ const userSchema = new Schema({
   },
   name_color: {
     type: String,
-    default: "black"
+    default: "green"
+  },
+  rank: {
+    type: String,
+    default: " "
   },
   msg_count: {
     type: Number,

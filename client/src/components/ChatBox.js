@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Input, Label, FormGroup, Button } from "reactstrap";
+import { Input, Label, FormGroup, Button, Alert } from "reactstrap";
 import "../styles/ChatBox.css";
 import openSocket from "socket.io-client";
 import { connect } from "react-redux";
 import RegisterModal from "./auth/RegisterModal";
 import LoginModal from "./auth/LoginModal";
+import moment from "moment";
 
 const socket = openSocket(`http://localhost:${process.env.PORT || 5000}`);
 
@@ -13,10 +14,13 @@ class ChatBox extends Component {
     newMessage: "",
     messages: [],
     events: [],
-    typingTimer: null
+    typingTimer: null,
+    errorMsg: ""
   };
 
   componentDidMount() {
+    const { events } = this.state;
+
     // Get messages from db
     socket.on("output", data => {
       this.setState({
@@ -25,14 +29,13 @@ class ChatBox extends Component {
       this.scrollToBottom();
     });
 
-    // Ref
+    // Refresh - new messages
     socket.on("refresh", data => {
       this.setState({ messages: [...this.state.messages, data] });
       this.scrollToBottom();
     });
 
     // Typing event
-    const { events } = this.state;
     socket.on("typing", name => {
       const event = {
         type: "TYPING",
@@ -69,31 +72,45 @@ class ChatBox extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    // Clear Typing event
-    socket.emit("stopTyping", this.props.user.name);
+    const { name, name_color, rank } = this.props.user;
+    const { newMessage } = this.state;
 
-    // Emit new message
-    socket.emit("input", {
-      msg: this.state.newMessage,
-      author: this.props.user.name,
-      author_color: this.props.user.name_color
-    });
+    if (newMessage.length < 255) {
+      // Clear Typing event
+      socket.emit("stopTyping", this.props.user.name);
 
-    // Clear input field
-    this.setState({ newMessage: "" });
+      // Emit new message
+      socket.emit("input", {
+        msg: newMessage,
+        author: name,
+        author_color: name_color,
+        author_rank: rank
+      });
+
+      // Clear input field
+      this.setState({ newMessage: "" });
+    } else {
+      this.setState({ errorMsg: "Message might have at most 255 characters" });
+
+      // Clear error after 5sec
+      setTimeout(() => {
+        this.setState({ errorMsg: "" });
+      }, 5000);
+    }
   };
 
   handleKeyPress = e => {
     const { name } = this.props.user;
-    this.setState({ isTyping: true });
+    const { typingTimer } = this.state;
+
     // Submit after enter
     if (e.which === 13) return this.handleSubmit(e);
 
     // Emit typing
     socket.emit("typing", name);
 
-    // Handle stop typing - clear event
-    clearTimeout(this.state.typingTimer);
+    // Emit stop typing after 5s break - clear event
+    clearTimeout(typingTimer);
     this.setState({
       typingTimer: setTimeout(() => {
         socket.emit("stopTyping", name);
@@ -101,18 +118,30 @@ class ChatBox extends Component {
     });
   };
 
+  // Scroll chatbox to bottom
   scrollToBottom = () => {
     this.chat.scrollTop = this.chat.scrollHeight;
   };
 
   render() {
     const { isAuthenticated } = this.props;
-    const { newMessage, messages, events } = this.state;
+    const { newMessage, messages, events, errorMsg } = this.state;
     const msgList = messages.length
       ? messages.map(msg => (
-          <div className="message" key={msg._id}>
-            <strong style={{ color: msg.author_color }}>{msg.author}: </strong>
-            <span>{msg.msg}</span>
+          <div className="msg__wrapper" key={msg._id}>
+            <span style={{ color: msg.author_color }} className="rank">
+              {msg.author_rank}
+            </span>
+            <div className="message">
+              <strong style={{ color: msg.author_color }}>
+                {msg.author}:{" "}
+              </strong>
+              <span>{msg.msg}</span>
+            </div>
+            <div className="date">
+              {moment(msg.date).format("HH:mm")}&nbsp;|&nbsp;
+              {moment(msg.date).format("DD-MM-YYYY")}
+            </div>
           </div>
         ))
       : "There aren't any messages yet - let's change that!";
@@ -142,6 +171,11 @@ class ChatBox extends Component {
               value={newMessage}
               onKeyPress={this.handleKeyPress}
             />
+            {errorMsg !== "" ? (
+              <Alert color="danger" className="my-3">
+                {errorMsg}
+              </Alert>
+            ) : null}
             <Button color="success px-5" onClick={this.handleSubmit}>
               Send
             </Button>

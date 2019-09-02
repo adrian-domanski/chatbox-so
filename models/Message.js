@@ -10,11 +10,15 @@ const messageSchema = new Schema({
     type: String,
     require: true
   },
-  data: {
+  date: {
     type: Date,
     default: Date.now
   },
   author_color: {
+    type: String,
+    required: true
+  },
+  author_rank: {
     type: String,
     required: true
   }

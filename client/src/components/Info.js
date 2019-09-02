@@ -10,7 +10,7 @@ class Info extends Component {
   };
 
   componentDidMount() {
-    // Catch active emit
+    // Catch active users emit
     socket.on("active", data => {
       const users = Math.floor(data / 2);
       this.setState({ user_count: users });

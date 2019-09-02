@@ -12,3 +12,12 @@
     font-size: 18px !important;
   }
 }
+
+@media screen and (max-height: 600px) {
+  .info {
+    display: none;
+  }
+  .chatbox {
+    flex-basis: 100%;
+  }
+}

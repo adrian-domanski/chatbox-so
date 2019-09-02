@@ -5,8 +5,27 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  max-width: 100vw;
-  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Background image */
+html::before {
+  content: " ";
+  display: block;
+  background-image: url("./styles/IMG/mario-bg.png");
+  background-position: bottom;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  z-index: -10;
+  background-color: #95e8f3 !important;
 }
 
 code {
@@ -24,12 +43,12 @@ textarea {
 }
 
 .info {
-  flex-basis: 20%;
+  width: 20%;
   padding: 1re;
 }
 
 .chatbox {
-  flex-basis: 80%;
+  width: 80%;
 }
 
 .spamers {

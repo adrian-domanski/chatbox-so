@@ -81,14 +81,15 @@ io.on("connection", socket => {
 
   // New message
   socket.on("input", data => {
-    const { msg, author, author_color } = data;
+    const { msg, author, author_color, author_rank } = data;
     if (msg === "" || !msg) return sendStatus("Please type in your message");
     if (!author) return sendStatus("Please log in to add new message");
 
     const newMessage = new Message({
       msg,
       author,
-      author_color
+      author_color,
+      author_rank
     });
 
     newMessage.save((err, msg) => {
