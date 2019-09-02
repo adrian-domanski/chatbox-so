@@ -1,3 +1,12 @@
+* {
+  box-sizing: border-box !important;
+}
+
+html {
+  width: 100vw;
+  height: 100vh;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -5,8 +14,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 100vw;
+  max-width: 100%;
   height: 100vh;
+  /* overflow-x: hidden; */
 }
 
 /* Background image */
@@ -35,20 +45,6 @@ code {
 
 textarea {
   resize: none;
-}
-
-.content {
-  display: flex;
-  justify-content: space-between;
-}
-
-.info {
-  width: 20%;
-  padding: 1re;
-}
-
-.chatbox {
-  width: 80%;
 }
 
 .spamers {

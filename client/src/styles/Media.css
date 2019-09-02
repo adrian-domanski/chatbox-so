@@ -1,9 +1,10 @@
-@media screen and (max-width: 998px) {
+@media screen and (max-width: 1030px) {
   .info {
     display: none;
   }
   .chatbox {
-    flex-basis: 100%;
+    margin: 0 auto;
+    width: 90%;
   }
 }
 
@@ -18,6 +19,15 @@
     display: none;
   }
   .chatbox {
-    flex-basis: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 830px) {
+  .message {
+    width: 100%;
+  }
+  .date {
+    display: none;
   }
 }
