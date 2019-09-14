@@ -62,6 +62,8 @@ io.on("connection", socket => {
 
   // Initial emit sent messages from db
   Message.find()
+    .limit(100)
+    .sort({ date: -1 })
     .then(msg => {
       socket.emit("output", msg);
     })

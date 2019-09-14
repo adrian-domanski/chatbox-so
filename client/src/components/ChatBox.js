@@ -23,8 +23,14 @@ class ChatBox extends Component {
 
     // Get messages from db
     socket.on("output", data => {
+      // Reverse array order
+      let arr = data;
+      let reversed_arr = [];
+      for (let i = arr.length; i > 0; i--) {
+        reversed_arr = [...reversed_arr, arr[i - 1]];
+      }
       this.setState({
-        messages: data
+        messages: reversed_arr
       });
       this.scrollToBottom();
     });
