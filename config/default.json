@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://adison:adison123@chat-5zw8r.mongodb.net/test?retryWrites=true&w=majority",
+  "mongoURI": "mongodb+srv://adison:7hht1asv2U9XV33r@chat.5zw8r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   "jwtSecret": "ch_jwtSecret"
 }
